@@ -1,0 +1,15 @@
+{
+  "name": "Vaadin Incubator Element",
+  "pages": [
+  {
+    "name": "Basics",
+    "url": "incubator-avatar-basic-demos",
+    "src": "incubator-avatar-basic-demos.html",
+    "meta": {
+      "title": "incubator-avatar Basic Examples",
+      "description": "",
+      "image": ""
+     }
+  }
+  ]
+}

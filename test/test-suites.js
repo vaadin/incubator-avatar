@@ -1,0 +1,3 @@
+window.IncubatorAvatarSuites = [
+  'sample.html',
+];

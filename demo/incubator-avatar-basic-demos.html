@@ -1,0 +1,26 @@
+<dom-module id="incubator-avatar-basic-demos">
+  <template>
+    <style include="vaadin-component-demo-shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h3>Demo sample</h3>
+    <vaadin-demo-snippet id="incubator-avatar-demo-sample">
+      <template preserve-content>
+        <incubator-avatar>
+        </incubator-avatar>
+      </template>
+    </vaadin-demo-snippet>
+
+  </template>
+  <script>
+    class IncubatorAvatarBasicDemos extends DemoReadyEventEmitter(ElementDemo(Polymer.Element)) {
+      static get is() {
+        return 'incubator-avatar-basic-demos';
+      }
+    }
+    customElements.define(IncubatorAvatarBasicDemos.is, IncubatorAvatarBasicDemos);
+  </script>
+</dom-module>
