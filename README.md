@@ -3,21 +3,16 @@
 
 # &lt;incubator-avatar&gt;
 
-[Live Demo ↗](https://vaadin.com/components/incubator-avatar/html-examples)
-|
-[API documentation ↗](https://vaadin.com/components/incubator-avatar/html-api)
+[Live Demo ↗](https://incubator.app.fi/incubator-avatar-demo/index.html)
 
-
-[&lt;incubator-avatar&gt;](https://vaadin.com/components/incubator-avatar) is a Web Component providing an easy way to ask the user to confirm a choice, part of the [Vaadin components](https://vaadin.com/components).
+[&lt;incubator-avatar&gt;](https://vaadin.com/directory/component/vaadinincubator-avatar) is a Web Component displaying user's avatar, his name or a placeholder icon.
 
 ```html
-  <incubator-avatar header="Unsaved changes" confirm-text="Save" on-confirm="save"
-    cancel on-cancel="cancel" reject reject-text="Discard" on-reject="discard">
-    Do you want to save or discard your changes before navigating away?
+  <incubator-avatar abbr="BJ" name="Ben Jones" image="https://unsplash.it/500/500?random">
   </incubator-avatar>
 ```
 
-[<img src="https://raw.githubusercontent.com/vaadin/incubator-avatar/master/screenshot.png" width="200" alt="Screenshot of incubator-avatar">](https://vaadin.com/components/incubator-avatar)
+[<img src="https://raw.githubusercontent.com/vaadin/incubator-avatar/master/screenshot.png" width="200" alt="Screenshot of incubator-avatar">](https://vaadin.com/directory/component/vaadinincubator-avatar)
 
 
 ## Installation

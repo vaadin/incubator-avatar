@@ -9,13 +9,65 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 <link rel="import" href="../../polymer/polymer-element.html">
 <link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html">
 <link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html">
+<link rel="import" href="../../vaadin-lumo-styles/icons.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
 
 <dom-module id="incubator-avatar">
   <template>
     <style>
+      :host {
+        display: inline-flex;
+        width: 24px;
+        height: 24px;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        border-radius: 50%;
+        font-size: 48px;
+        overflow: hidden;
+        cursor: default;
+        font-weight: 500;
+        flex: none;
+      }
+
+      [part="abbr"] {
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      svg {
+        font: inherit;
+        fill: currentColor;
+        width: 100%;
+        height: 100%;
+      }
+
+      iron-icon {
+        width: auto;
+        height: auto;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     </style>
 
-    <h1>Hello world</h1>
+    <template is="dom-if" if="[[!image]]">
+      <template is="dom-if" if="[[!abbr]]">
+        <iron-icon icon="lumo:user"></iron-icon>
+      </template>
+
+      <template is="dom-if" if="[[abbr]]">
+        <svg part="abbr" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+          <text dy=".31em" text-anchor="middle">[[abbr]]</text>
+        </svg>
+      </template>
+    </template>
+
+    <template is="dom-if" if="[[image]]">
+      <img src="[[image]]" alt="[[name]]">
+    </template>
   </template>
 
   <script>
@@ -34,6 +86,45 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
       class IncubatorAvatar extends Vaadin.ElementMixin(Vaadin.ThemableMixin(Polymer.Element)) {
         static get is() {
           return 'incubator-avatar';
+        }
+
+        static get properties() {
+          return {
+            name: {
+              type: String
+            },
+
+            image: {
+              type: String,
+              value: ''
+            },
+
+            abbr: {
+              type: String,
+              reflectToAttribute: true,
+              notify: true,
+              value: ''
+            }
+          };
+        }
+
+        static get observers() {
+          return [
+            '_setAbbr(name)',
+            '_setTitle(name)'
+          ];
+        }
+
+        _setTitle(name) {
+          this.title = name;
+        }
+
+        _setAbbr(name) {
+          if (this.abbr) {
+            return;
+          }
+
+          this.abbr = name.split(' ').map((word) => word[0]).join('');
         }
       }
 
