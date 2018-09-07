@@ -11,6 +11,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 <link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html">
 <link rel="import" href="../../vaadin-lumo-styles/icons.html">
 <link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../../incubator-tooltip/incubator-tooltip.html">
 
 <dom-module id="incubator-avatar">
   <template>
@@ -28,6 +29,10 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         cursor: default;
         font-weight: 500;
         flex: none;
+      }
+
+      :host[no-tooltip] incubator-tooltip {
+        display: none;
       }
 
       [part="abbr"] {
@@ -55,18 +60,33 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 
     <template is="dom-if" if="[[!image]]">
       <template is="dom-if" if="[[!abbr]]">
-        <iron-icon icon="lumo:user"></iron-icon>
+        <iron-icon id="avatar-icon" icon="lumo:user"></iron-icon>
+        <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
+          <incubator-tooltip id="tooltip" for="avatar-icon" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]">
+            [[name]]
+          </incubator-tooltip>
+        </template>
       </template>
 
       <template is="dom-if" if="[[abbr]]">
-        <svg part="abbr" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+        <svg id="avatar-abbr" part="abbr" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
           <text dy=".31em" text-anchor="middle">[[abbr]]</text>
         </svg>
+        <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
+          <incubator-tooltip id="tooltip" for="avatar-abbr" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]">
+            [[name]]
+          </incubator-tooltip>
+        </template>
       </template>
     </template>
 
     <template is="dom-if" if="[[image]]">
-      <img src="[[image]]" alt="[[name]]">
+      <img id="avatar-image" src="[[image]]" alt="[[name]]">
+      <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
+        <incubator-tooltip id="tooltip" for="avatar-image" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]">
+          [[name]]
+        </incubator-tooltip>
+      </template>
     </template>
   </template>
 
@@ -104,6 +124,22 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
               reflectToAttribute: true,
               notify: true,
               value: ''
+            },
+
+            tooltipPosition: {
+              type: String,
+              value: 'bottom'
+            },
+
+            tooltipAlign: {
+              type: String,
+              value: 'center'
+            },
+
+            noTooltip: {
+              type: Boolean,
+              value: false,
+              reflectToAttribute: true
             }
           };
         }
@@ -116,7 +152,9 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         }
 
         _setTitle(name) {
-          this.title = name;
+          if (this.noTooltip) {
+            this.title = name;
+          }
         }
 
         _setAbbr(name) {
@@ -125,6 +163,10 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           }
 
           this.abbr = name.split(' ').map((word) => word[0]).join('');
+        }
+
+        _shouldlDisplayTooltip() {
+          return Boolean(this.name) && !this.noTooltip;
         }
       }
 
