@@ -35,7 +35,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         display: none;
       }
 
-      :host([image]) {
+      :host([with-image]) {
         background: none;
       }
 
@@ -120,7 +120,6 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 
             image: {
               type: String,
-              reflectToAttribute: true,
               value: ''
             },
 
@@ -145,6 +144,12 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
               type: Boolean,
               value: false,
               reflectToAttribute: true
+            },
+
+            withImage: {
+              type: Boolean,
+              reflectToAttribute: true,
+              value: false
             }
           };
         }
@@ -152,8 +157,13 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         static get observers() {
           return [
             '_setAbbr(name)',
-            '_setTitle(name)'
+            '_setTitle(name)',
+            '_setWithImage(image)'
           ];
+        }
+
+        _setWithImage(image) {
+          this.withImage = image !== undefined && image.length > 0;
         }
 
         _setTitle(name) {
