@@ -66,7 +66,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
       <template is="dom-if" if="[[!abbr]]">
         <iron-icon id="avatar-icon" icon="lumo:user"></iron-icon>
         <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
-          <incubator-tooltip id="tooltip" for="avatar-icon" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]">
+          <incubator-tooltip id="tooltip" for="avatar-icon" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual="[[noTooltip]]">
             [[name]]
           </incubator-tooltip>
         </template>
@@ -77,7 +77,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           <text dy=".31em" text-anchor="middle">[[abbr]]</text>
         </svg>
         <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
-          <incubator-tooltip id="tooltip" for="avatar-abbr" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]">
+          <incubator-tooltip id="tooltip" for="avatar-abbr" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual="[[noTooltip]]">
             [[name]]
           </incubator-tooltip>
         </template>
@@ -87,7 +87,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
     <template is="dom-if" if="[[image]]">
       <img id="avatar-image" src="[[image]]" alt="[[name]]">
       <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
-        <incubator-tooltip id="tooltip" for="avatar-image" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]">
+        <incubator-tooltip id="tooltip" for="avatar-image" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual="[[noTooltip]]">
           [[name]]
         </incubator-tooltip>
       </template>
