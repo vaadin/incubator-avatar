@@ -64,34 +64,24 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 
     <template is="dom-if" if="[[!image]]">
       <template is="dom-if" if="[[!abbr]]">
-        <iron-icon id="avatar-icon" icon="lumo:user"></iron-icon>
-        <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
-          <incubator-tooltip id="tooltip" for="avatar-icon" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual="[[noTooltip]]">
-            [[name]]
-          </incubator-tooltip>
-        </template>
+        <iron-icon id="target" icon="lumo:user"></iron-icon>
       </template>
 
       <template is="dom-if" if="[[abbr]]">
-        <svg id="avatar-abbr" part="abbr" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+        <svg id="target" part="abbr" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
           <text dy=".31em" text-anchor="middle">[[abbr]]</text>
         </svg>
-        <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
-          <incubator-tooltip id="tooltip" for="avatar-abbr" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual="[[noTooltip]]">
-            [[name]]
-          </incubator-tooltip>
-        </template>
       </template>
+
     </template>
 
     <template is="dom-if" if="[[image]]">
-      <img id="avatar-image" src="[[image]]" alt="[[name]]">
-      <template is="dom-if" if="[[_shouldlDisplayTooltip()]]">
-        <incubator-tooltip id="tooltip" for="avatar-image" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual="[[noTooltip]]">
-          [[name]]
-        </incubator-tooltip>
-      </template>
+      <img id="target" src="[[image]]" alt="[[name]]">
     </template>
+
+    <incubator-tooltip id="tooltip" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual>
+      [[name]]
+    </incubator-tooltip>
   </template>
 
   <script>
@@ -158,8 +148,17 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           return [
             '_setAbbr(name)',
             '_setTitle(name)',
+            '_updateTooltipMode(name)',
             '_setWithImage(image)'
           ];
+        }
+
+        ready(){
+          super.ready();
+
+          Polymer.RenderStatus.afterNextRender(this, function() {
+            this._calculateTarget() 
+          });
         }
 
         _setWithImage(image) {
@@ -180,9 +179,27 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           this.abbr = name.split(' ').map((word) => word[0]).join('');
         }
 
-        _shouldlDisplayTooltip() {
-          return Boolean(this.name) && !this.noTooltip;
+        _updateTooltipMode(name) {
+          let tooltip = this._getToolTip();
+
+          if (!this.noTooltip && name) {
+            tooltip.manual = false;
+          } else {
+            tooltip.manual = true;
+          }
         }
+
+        _calculateTarget() {
+            let tooltip = this._getToolTip();
+            let target = this.shadowRoot.querySelector('#target');
+
+            tooltip.targetElement = target;
+        }
+
+        _getToolTip() {
+          return this.shadowRoot.querySelector('#tooltip');
+        }
+
       }
 
       customElements.define(IncubatorAvatar.is, IncubatorAvatar);
