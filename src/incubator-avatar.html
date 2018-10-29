@@ -62,21 +62,21 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
       }
     </style>
 
-    <template is="dom-if" if="[[!image]]">
+    <template is="dom-if" if="[[!withImage]]">
       <template is="dom-if" if="[[!abbr]]">
-        <iron-icon id="target" icon="lumo:user"></iron-icon>
+        <iron-icon id="avatar-icon" icon="lumo:user"></iron-icon>
       </template>
 
       <template is="dom-if" if="[[abbr]]">
-        <svg id="target" part="abbr" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+        <svg id="avatar-abbr" part="abbr" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
           <text dy=".31em" text-anchor="middle">[[abbr]]</text>
         </svg>
       </template>
 
     </template>
 
-    <template is="dom-if" if="[[image]]">
-      <img id="target" src="[[image]]" alt="[[name]]">
+    <template is="dom-if" if="[[withImage]]">
+      <img id="avatar-image" src="[[image]]" alt="[[name]]">
     </template>
 
     <incubator-tooltip id="tooltip" position$="[[tooltipPosition]]" align$="[[tooltipAlign]]" manual>
@@ -149,16 +149,15 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
             '_setAbbr(name)',
             '_setTitle(name)',
             '_updateTooltipMode(name)',
-            '_setWithImage(image)'
+            '_setWithImage(image)',
+            '_calculateTarget(abbr,withImage)'
           ];
         }
 
         ready(){
           super.ready();
 
-          Polymer.RenderStatus.afterNextRender(this, function() {
-            this._calculateTarget() 
-          });
+          this._calculateTarget();
         }
 
         _setWithImage(image) {
@@ -190,14 +189,21 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         }
 
         _calculateTarget() {
+          Polymer.RenderStatus.afterNextRender(this, function() {
             let tooltip = this._getToolTip();
-            let target = this.shadowRoot.querySelector('#target');
+            let target = this.shadowRoot.querySelector(this._getTarget());
 
             tooltip.targetElement = target;
+          });
         }
 
         _getToolTip() {
           return this.shadowRoot.querySelector('#tooltip');
+        }
+
+         _getTarget() {
+          let idSelector = "#"+(this.withImage ? "avatar-image" : (this.abbr) ? "avatar-abbr" : "avatar-icon");
+          return idSelector;
         }
 
       }
