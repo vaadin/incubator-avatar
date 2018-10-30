@@ -147,7 +147,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           return [
             '_setAbbr(name)',
             '_setTitle(name)',
-            '_updateTooltipMode(name)',
+            '_updateTooltipMode(name,noTooltip)',
             '_setWithImage(image)',
             '_calculateTarget(abbr,withImage)'
           ];
@@ -177,10 +177,10 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           this.abbr = name.split(' ').map((word) => word[0]).join('');
         }
 
-        _updateTooltipMode(name) {
+        _updateTooltipMode(name, noTooltip) {
           let tooltip = this._getToolTip();
 
-          if (!this.noTooltip && name) {
+          if (!noTooltip && name) {
             tooltip.manual = false;
           } else {
             tooltip.manual = true;
